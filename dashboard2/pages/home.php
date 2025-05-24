@@ -9,7 +9,7 @@ $totalStudentsResult = $conn->query($totalStudentsQuery);
 $totalStudents = ($totalStudentsResult->num_rows > 0) ? $totalStudentsResult->fetch_assoc()['total_students'] : 0;
 
 // Fetch total faculty count
-$totalFacultyQuery = "SELECT COUNT(DISTINCT faculty_id) AS total_faculty FROM faculty_attendance";
+$totalFacultyQuery = "SELECT COUNT( faculty_id) AS total_faculty FROM faculty_attendance";
 $totalFacultyResult = $conn->query($totalFacultyQuery);
 $totalFaculty = ($totalFacultyResult->num_rows > 0) ? $totalFacultyResult->fetch_assoc()['total_faculty'] : 0;
 
@@ -70,7 +70,7 @@ foreach ($topCourses as $row) {
 }
 
 // Fetch sex distribution
-$sexQuery = "SELECT students.sex, COUNT(DISTINCT students_attendance.student_id) AS student_count 
+$sexQuery = "SELECT students.sex, COUNT(students_attendance.student_id) AS student_count 
              FROM students
              INNER JOIN students_attendance ON students.student_id = students_attendance.student_id 
              GROUP BY students.sex";

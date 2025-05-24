@@ -53,7 +53,7 @@ $search = $_GET['search'] ?? '';
               <th>Middle Initial</th>
               <th>Sex</th>
               <th>Course</th>
-              <th>Year & Section</th>
+              <th>Year Level</th>
               <th>Validation Status</th>
               <th>Action</th>
             </tr>
@@ -68,7 +68,7 @@ $search = $_GET['search'] ?? '';
                       OR last_name LIKE '%$escaped%' 
                       OR middle_initial LIKE '%$escaped%' 
                       OR course LIKE '%$escaped%' 
-                      OR year_section LIKE '%$escaped%'
+                      OR year_level LIKE '%$escaped%'
                       ORDER BY last_name, first_name";
         } else {
             $query = "SELECT * FROM students ORDER BY last_name, first_name";
@@ -87,11 +87,11 @@ $search = $_GET['search'] ?? '';
                 echo "<td>" . htmlspecialchars($row['middle_initial']) . "</td>";
                 echo "<td>" . htmlspecialchars(ucfirst($row['sex'])) . "</td>";
                 echo "<td>" . htmlspecialchars($row['course']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['year_section']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['validation_status']) . "</td>";
                 echo "<td class='action-icons'>
-                        <a href='tryindex.php?page=editStudent&studentId=" . urlencode($row['student_id']) . "' class='text-primary'><i class='ri-edit-line'></i></a>
-                        <a href='tryindex.php?page=deleteStudent&studentId=" . urlencode($row['student_id']) . "' class='text-danger' onclick='return confirm(\"Are you sure you want to delete student with ID " . htmlspecialchars($row['student_id']) . "?\");'><i class='ri-delete-bin-line'></i></a>
+                        <a href='index.php?page=editStudent&studentId=" . urlencode($row['student_id']) . "' class='text-primary'><i class='ri-edit-line'></i></a>
+                        <a href='index.php?page=deleteStudent&studentId=" . urlencode($row['student_id']) . "' class='text-danger' onclick='return confirm(\"Are you sure you want to delete student with ID " . htmlspecialchars($row['student_id']) . "?\");'><i class='ri-delete-bin-line'></i></a>
                       </td>";
                 echo "</tr>";
             }

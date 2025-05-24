@@ -1,3 +1,47 @@
+<?php
+require_once "db.php";
+
+// Processing form data
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $student_id = $_POST['student_id'];
+    $middle_initial = $_POST['middle_initial'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $sex = $_POST['sex'];
+    $course = $_POST['course'];
+    $year_level = $_POST['year_level'];
+    $validation_status = $_POST['validation_status'];
+
+    $result = $conn->query("SELECT * FROM students WHERE student_id = '$student_id'");
+    
+    if ($result->num_rows > 0) {
+        echo "<script>
+            alert('Student ID already exists!');
+            window.location.href = 'index.php?page=addStudent';
+        </script>";
+        exit();
+    } else {
+        $sql = "INSERT INTO students (student_id, first_name, middle_initial, last_name, sex, course, year_level, validation_status)
+                    VALUES ('$student_id', '$first_name', '$middle_initial', '$last_name', '$sex', '$course', '$year_level','$validation_status')";
+        
+        if ($conn->query($sql)) {
+            echo "<script>
+                alert('Student Successfully Added!');
+                window.location.href = 'index.php?page=addStudent';
+            </script>";
+        } else {
+            echo "<script>
+                alert('Error: Could not save student.');
+            </script>";
+        }
+
+        $conn->close();
+        exit();
+    }
+}
+?>
+
+
 <div class="container-fluid mt-2 p-2 custom-container">
   <div class="row justify-content-center">
     <div class="col-12 col-xl-11 col-xxl-10">
@@ -7,8 +51,15 @@
           <h5 class="mb-0">Add Student Record</h5>
         </div>
         <div class="card-body p-4">
-            <form action="process/add_student.php" method="POST" class="needs-validation" novalidate>
+              <form action="index.php?page=addStudent" method="POST" class="needs-validation" novalidate>
               <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <label for="student_id" class="form-label">Student ID</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                    <input type="text" class="form-control form-control-lg" id="student_id" name="student_id" required>
+                  </div>
+                </div>
                 <div class="col-md-4">
                   <label for="first_name" class="form-label">First Name</label>
                   <div class="input-group">
@@ -20,7 +71,7 @@
                   <label for="middle_initial" class="form-label">Middle Initial</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-person-lines-fill"></i></span>
-                    <input type="text" class="form-control form-control-lg" id="middle_initial" name="middle_initial" maxlength="1" required>
+                    <input type="text" class="form-control form-control-lg" id="middle_initial" name="middle_initial" maxlength="2" required>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -52,14 +103,20 @@
                 </div>
               </div>
 
-              <div class="mb-4">
-                <label for="year_section" class="form-label">Year & Section</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-building"></i></span>
-                  <input type="text" class="form-control form-control-lg" id="year_section" name="year_section" placeholder="e.g., 3A" required>
+              <div class="col-md-4">
+                  <label for="year_level" class="form-label">Year Level</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+                    <select class="form-select form-select-sm" id="year_level" name="year_level" required>
+                      <option value="">-- Select Year Level --</option>
+                      <option value="1st Year">1st Year</option>
+                      <option value="2nd Year">2nd Year</option>
+                      <option value="3rd Year">3rd Year</option>
+                      <option value="4th Year">4th Year</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-
               <div class="row mb-4">
                 <div class="col-md-6">
                   <label class="form-label d-block">Sex</label>
@@ -75,10 +132,10 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="status" class="form-label">Validation Status</label>
+                  <label for="validation_status" class="form-label">Validation Status</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
-                    <select class="form-select form-select-sm" id="status" name="status" required>
+                    <select class="form-select form-select-sm" id="validation_status" name="validation_status" required>
                       <option value="">-- Select Status --</option>
                       <option value="Validated">Validated</option>
                       <option value="Not Validated">Not Validated</option>

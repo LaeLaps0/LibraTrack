@@ -58,7 +58,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
       <a href="?page=viewStudent" class="list-group-item <?= $currentPage === 'viewStudent' ? 'active' : '' ?>">
         <i class="bi bi-person-lines-fill me-2"></i> Students Record
       </a>
-      <a href="?page=addFaculty" class="list-group-item <?= $currentPage === 'addFaculty' ? 'active' : '' ?>">
+      <a href="?page=viewFaculty" class="list-group-item <?= $currentPage === 'viewFaculty' ? 'active' : '' ?>">
         <i class="bi bi-person-badge me-2"></i> Faculty Record
       </a>
     </div>
